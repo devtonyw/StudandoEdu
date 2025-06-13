@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studando - Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #f5f5f5;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c; /* Cor principal */
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #e74c3c;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #c0392b; /* Cor principal mais escura */
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+            min-height: calc(100vh - 100px); /* Ajuste conforme altura do header/footer */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quiz-container {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Timer */
+        .timer {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Question */
+        .question-section {
+            margin-bottom: 40px; /* Aumentado para mais espaço */
+        }
+
+        .question-title {
+            font-size: 28px; /* Aumentado */
+            color: #333; /* Mudado para preto para melhor contraste */
+            margin-bottom: 30px; /* Ajustado */
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        /* Options Card */
+        .options-card {
+            background-color: #ffffff; /* Fundo branco para o card */
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Sombra mais sutil */
+            max-width: 500px; /* Ou ajuste conforme necessidade */
+            margin: 0 auto;
+        }
+
+        .option {
+            background-color: #f0f0f0; /* Cinza claro para opções não selecionadas */
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 16px;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .option:last-child {
+            margin-bottom: 0;
+        }
+
+        .option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: #e74c3c; /* Borda na cor principal ao passar o mouse */
+        }
+
+        .option.selected { /* Estilo para quando uma opção é clicada, antes de saber se é certa/errada */
+            background-color: #3498db; /* Azul para selecionada */
+            color: white;
+            border-color: #2980b9;
+        }
+
+        .option.correct {
+            background-color: #27ae60 !important; /* Verde para correta */
+            color: white !important;
+            border-color: #229954 !important;
+            animation: correctAnswer 0.6s ease;
+        }
+
+        .option.incorrect {
+            background-color: #e74c3c !important; /* Vermelho para incorreta (cor principal) */
+            color: white !important;
+            border-color: #c0392b !important;
+            animation: incorrectAnswer 0.6s ease;
+        }
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectAnswer {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 30px;
+            background-color: #e0e0e0; /* Fundo da barra de progresso */
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden; /* Para o border-radius funcionar no filho */
+        }
+
+        .progress-bar {
+            background-color: #e74c3c; /* Cor principal para o progresso */
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%; /* Começa em 0 */
+        }
+
+        /* Question Counter */
+        .question-counter {
+            color: #7f8c8d; /* Cinza para o contador */
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        /* Next Button */
+        .next-button {
+            background-color: #e74c3c; /* Cor principal */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: none; /* Começa escondido */
+        }
+
+        .next-button:hover {
+            background-color: #c0392b; /* Cor principal mais escura */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        .next-button.show { /* Classe para mostrar o botão */
+            display: inline-block;
+        }
+
+        /* Results */
+        .results {
+            display: none; /* Começa escondido */
+            text-align: center;
+        }
+
+        .results.show { /* Classe para mostrar os resultados */
+            display: block;
+        }
+
+        .score {
+            font-size: 48px;
+            color: #e74c3c; /* Cor principal */
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .score-text {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .restart-button {
+            background-color: #e74c3c; /* Cor principal */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .restart-button:hover {
+            background-color: #c0392b; /* Cor principal mais escura */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Ou transforme em menu hamburger */
+            }
+
+            .timer {
+                font-size: 20px;
+                padding: 12px 25px;
+            }
+
+            .question-title {
+                font-size: 24px;
+            }
+
+            .options-card {
+                padding: 20px;
+                margin: 0 15px; /* Adiciona margem lateral */
+            }
+
+            .option {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .question-title {
+                font-size: 20px;
+            }
+
+            .timer {
+                font-size: 18px;
+                padding: 10px 20px;
+            }
+
+            .options-card {
+                padding: 15px;
+                margin: 0 10px; /* Adiciona margem lateral */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">STUDANDO</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="aboutUsPage.html">Quem somos</a></li>
+                    <li><a href="servicesPage.html">Serviços</a></li>
+                    <li><a href="contactPage.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="quiz-container">
+                <div class="timer" id="timer-display">15</div> <div class="quiz-content" id="quiz-content-area"> <div class="question-section">
+                        <h2 class="question-title" id="question-text-area">Pergunta Placeholder</h2> </div>
+
+                    <div class="options-card">
+                        <div class="option-container" id="options-container-area">
+                            </div>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar" id="progress-bar-area"></div> </div>
+                        <div class="question-counter" id="question-counter-area">Pergunta 1 / 10</div> <button class="next-button" id="next-button-area" onclick="nextQuestion()">Próxima</button> </div>
+                </div>
+
+                <div class="results" id="results-area"> <div class="score" id="final-score-display">0/0</div> <div class="score-text" id="score-message">Parabéns!</div> <button class="restart-button" onclick="restartQuiz()">Jogar Novamente</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="database/basic.js"></script>
+    <script src="database/elementary.js"></script>
+    <script src="database/high.js"></script>
+    <script src="database/technical.js"></script>
+    <script src="database/college.js"></script>
+
+    <script id="gameScript">
+        const EDUCATION_LEVELS = {
+            basic: {
+                portuguese: typeof BASIC_PORTUGUESE_QUESTIONS !== 'undefined' ? BASIC_PORTUGUESE_QUESTIONS : {},
+                
+                science: typeof BASIC_SCIENCE_QUESTIONS !== 'undefined' ? BASIC_SCIENCE_QUESTIONS : {},
+                history: typeof BASIC_HISTORY_QUESTIONS !== 'undefined' ? BASIC_HISTORY_QUESTIONS : {},
+                geography: typeof BASIC_GEOGRAPHY_QUESTIONS !== 'undefined' ? BASIC_GEOGRAPHY_QUESTIONS : {},
+                art: typeof BASIC_ART_QUESTIONS !== 'undefined' ? BASIC_ART_QUESTIONS : {}
+            },
+            elementary: {
+                portuguese: typeof ELEMENTARY_PORTUGUESE_QUESTIONS !== 'undefined' ? ELEMENTARY_PORTUGUESE_QUESTIONS : {},
+                math: typeof ELEMENTARY_MATH_QUESTIONS !== 'undefined' ? ELEMENTARY_MATH_QUESTIONS : {},
+                science: typeof ELEMENTARY_SCIENCE_QUESTIONS !== 'undefined' ? ELEMENTARY_SCIENCE_QUESTIONS : {},
+                history: typeof ELEMENTARY_HISTORY_QUESTIONS !== 'undefined' ? ELEMENTARY_HISTORY_QUESTIONS : {},
+                geography: typeof ELEMENTARY_GEOGRAPHY_QUESTIONS !== 'undefined' ? ELEMENTARY_GEOGRAPHY_QUESTIONS : {},
+                art: typeof ELEMENTARY_ART_QUESTIONS !== 'undefined' ? ELEMENTARY_ART_QUESTIONS : {}
+            },
+            high: {
+                portuguese: typeof HIGH_PORTUGUESE_QUESTIONS !== 'undefined' ? HIGH_PORTUGUESE_QUESTIONS : {},
+                english: typeof HIGH_ENGLISH_QUESTIONS !== 'undefined' ? HIGH_ENGLISH_QUESTIONS : {},
+                art: typeof HIGH_ART_QUESTIONS !== 'undefined' ? HIGH_ART_QUESTIONS : {},
+                math: typeof HIGH_MATH_QUESTIONS !== 'undefined' ? HIGH_MATH_QUESTIONS : {},
+                physics: typeof HIGH_PHYSICS_QUESTIONS !== 'undefined' ? HIGH_PHYSICS_QUESTIONS : {},
+                chemistry: typeof HIGH_CHEMISTRY_QUESTIONS !== 'undefined' ? HIGH_CHEMISTRY_QUESTIONS : {},
+                biology: typeof HIGH_BIOLOGY_QUESTIONS !== 'undefined' ? HIGH_BIOLOGY_QUESTIONS : {},
+                history: typeof HIGH_HISTORY_QUESTIONS !== 'undefined' ? HIGH_HISTORY_QUESTIONS : {},
+                geography: typeof HIGH_GEOGRAPHY_QUESTIONS !== 'undefined' ? HIGH_GEOGRAPHY_QUESTIONS : {},
+                philosophy: typeof HIGH_PHILOSOPHY_QUESTIONS !== 'undefined' ? HIGH_PHILOSOPHY_QUESTIONS : {},
+                sociology: typeof HIGH_SOCIOLOGY_QUESTIONS !== 'undefined' ? HIGH_SOCIOLOGY_QUESTIONS : {}
+            },
+            technical: {
+                administration: typeof TECHNICAL_ADMINISTRATION_QUESTIONS !== 'undefined' ? TECHNICAL_ADMINISTRATION_QUESTIONS : {},
+                electrotechnics: typeof TECHNICAL_ELECTROTECHNICS_QUESTIONS !== 'undefined' ? TECHNICAL_ELECTROTECHNICS_QUESTIONS : {},
+                agriculture: typeof TECHNICAL_AGRICULTURE_QUESTIONS !== 'undefined' ? TECHNICAL_AGRICULTURE_QUESTIONS : {},
+                computing: typeof TECHNICAL_COMPUTING_QUESTIONS !== 'undefined' ? TECHNICAL_COMPUTING_QUESTIONS : {},
+                chemistry: typeof TECHNICAL_CHEMISTRY_QUESTIONS !== 'undefined' ? TECHNICAL_CHEMISTRY_QUESTIONS : {}
+            },
+            college: {
+                administration: typeof COLLEGE_ADMINISTRATION_QUESTIONS !== 'undefined' ? COLLEGE_ADMINISTRATION_QUESTIONS : {},
+                computerScience: typeof COLLEGE_COMPUTER_SCIENCE_QUESTIONS !== 'undefined' ? COLLEGE_COMPUTER_SCIENCE_QUESTIONS : {},
+                food: typeof COLLEGE_FOOD_QUESTIONS !== 'undefined' ? COLLEGE_FOOD_QUESTIONS : {},
+                systemsAnalysis: typeof COLLEGE_SYSTEMS_ANALYSIS_AND_DEVELOPMENT_QUESTIONS !== 'undefined' ? COLLEGE_SYSTEMS_ANALYSIS_AND_DEVELOPMENT_QUESTIONS : {},
+                industrialAutomation: typeof COLLEGE_INDUSTRIAL_AUTOMATION_QUESTIONS !== 'undefined' ? COLLEGE_INDUSTRIAL_AUTOMATION_QUESTIONS : {},
+                chemicalProcesses: typeof COLLEGE_CHEMICAL_PROCESSES_QUESTIONS !== 'undefined' ? COLLEGE_CHEMICAL_PROCESSES_QUESTIONS : {}
+            }
+        };
+
+        const MAX_ROUNDS = 10; // Número de rodadas do quiz
+        const DURATION_PER_QUESTION = 15; // Segundos por pergunta
+
+        let correctAnswersCount = 0;
+        let currentRound = 0;
+        let gameQuestions = {}; 
+        let currentQuestionData = null; // { question: string, answers: string[], correctAnswerText: string, shuffledAnswers: string[] }
+        
+        let gameLevelKey = '';
+        let gameSubjectKey = '';
+        let questionTimerInterval = null;
+        let timeLeft = 0;
+
+        // DOM Elements
+        const timerDisplayEl = document.getElementById('timer-display');
+        const quizContentAreaEl = document.getElementById('quiz-content-area');
+        const questionTextEl = document.getElementById('question-text-area');
+        const optionsContainerEl = document.getElementById('options-container-area');
+        const progressBarEl = document.getElementById('progress-bar-area');
+        const questionCounterEl = document.getElementById('question-counter-area');
+        const nextButtonEl = document.getElementById('next-button-area');
+        const resultsAreaEl = document.getElementById('results-area');
+        const finalScoreDisplayEl = document.getElementById('final-score-display');
+        const scoreMessageEl = document.getElementById('score-message');
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function initializeGameData() {
+            if (EDUCATION_LEVELS[gameLevelKey] && EDUCATION_LEVELS[gameLevelKey][gameSubjectKey]) {
+                const questionsSource = EDUCATION_LEVELS[gameLevelKey][gameSubjectKey];
+                if (Object.keys(questionsSource).length > 0) {
+                    gameQuestions = { ...questionsSource }; // Cria uma cópia para o jogo atual
+                } else {
+                    handleGameError("Não há questões disponíveis para esta seleção.");
+                    return false;
+                }
+            } else {
+                handleGameError("Nível ou tema inválido selecionado.");
+                return false;
+            }
+            correctAnswersCount = 0;
+            currentRound = 0;
+            return true;
+        }
+
+        function fetchNextQuestionFromSet() {
+            if (currentRound >= MAX_ROUNDS) return null;
+
+            const availableQuestionKeys = Object.keys(gameQuestions);
+            if (availableQuestionKeys.length === 0) return null;
+
+            const randomKeyIndex = Math.floor(Math.random() * availableQuestionKeys.length);
+            const questionText = availableQuestionKeys[randomKeyIndex];
+            const answersArray = gameQuestions[questionText]; // ["correta", "errada1", ...]
+            
+            delete gameQuestions[questionText]; // Remove para não repetir
+            currentRound++;
+
+            return {
+                question: questionText,
+                answers: answersArray, // Array original com a correta no índice 0
+            };
+        }
+        
+        function displayCurrentQuestion() {
+            questionTextEl.textContent = currentQuestionData.question;
+            optionsContainerEl.innerHTML = ''; // Limpa opções anteriores
+
+            currentQuestionData.shuffledAnswers.forEach((answerText, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('option');
+                optionDiv.textContent = answerText;
+                optionDiv.setAttribute('data-index', index); // Para identificar a opção clicada
+                optionDiv.onclick = () => handleOptionSelection(optionDiv, answerText);
+                optionsContainerEl.appendChild(optionDiv);
+            });
+
+            questionCounterEl.textContent = `Pergunta ${currentRound} / ${MAX_ROUNDS}`;
+            progressBarEl.style.width = `${(currentRound / MAX_ROUNDS) * 100}%`;
+            nextButtonEl.classList.remove('show');
+            startQuestionTimer();
+        }
+
+        function handleOptionSelection(clickedOptionDiv, selectedAnswerText) {
+            clearInterval(questionTimerInterval);
+            disableOptions();
+
+            const isCorrect = selectedAnswerText === currentQuestionData.correctAnswerText;
+
+            if (isCorrect) {
+                correctAnswersCount++;
+                clickedOptionDiv.classList.add('correct');
+            } else {
+                clickedOptionDiv.classList.add('incorrect');
+                // Mostra a correta
+                const allOptionDivs = optionsContainerEl.querySelectorAll('.option');
+                allOptionDivs.forEach(optDiv => {
+                    if (optDiv.textContent === currentQuestionData.correctAnswerText) {
+                        optDiv.classList.add('correct');
+                    }
+                });
+            }
+            nextButtonEl.classList.add('show');
+        }
+        
+        // Função chamada pelo botão "Próxima" no HTML
+        function nextQuestion() { 
+            loadNewQuestion();
+        }
+
+        function loadNewQuestion() {
+            const questionDetails = fetchNextQuestionFromSet();
+            if (questionDetails) {
+                currentQuestionData = {
+                    question: questionDetails.question,
+                    answers: questionDetails.answers,
+                    correctAnswerText: questionDetails.answers[0],
+                    shuffledAnswers: shuffleArray([...questionDetails.answers])
+                };
+                displayCurrentQuestion();
+            } else {
+                showFinalResults();
+            }
+        }
+        
+        function startQuestionTimer() {
+            timeLeft = DURATION_PER_QUESTION;
+            timerDisplayEl.textContent = timeLeft;
+            clearInterval(questionTimerInterval); // Limpa timer anterior se houver
+
+            questionTimerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplayEl.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(questionTimerInterval);
+                    handleTimeUp();
+                }
+            }, 1000);
+        }
+
+        function handleTimeUp() {
+            disableOptions();
+            // Mostra a resposta correta
+            const allOptionDivs = optionsContainerEl.querySelectorAll('.option');
+            allOptionDivs.forEach(optDiv => {
+                if (optDiv.textContent === currentQuestionData.correctAnswerText) {
+                    optDiv.classList.add('correct'); // Apenas destaca, não conta como acerto
+                }
+            });
+            nextButtonEl.classList.add('show');
+        }
+
+        function disableOptions() {
+            const allOptionDivs = optionsContainerEl.querySelectorAll('.option');
+            allOptionDivs.forEach(optDiv => {
+                optDiv.classList.add('disabled');
+                optDiv.onclick = null; // Remove o handler para evitar cliques múltiplos
+            });
+        }
+
+        function showFinalResults() {
+            clearInterval(questionTimerInterval);
+            quizContentAreaEl.style.display = 'none';
+            resultsAreaEl.classList.add('show');
+            resultsAreaEl.style.display = 'block'; // Garante visibilidade
+
+            finalScoreDisplayEl.textContent = `${correctAnswersCount} / ${currentRound}`; // Usa currentRound para total de jogadas
+            
+            let message = "Continue praticando!";
+            const percentage = currentRound > 0 ? (correctAnswersCount / currentRound) * 100 : 0;
+            if (percentage >= 80) {
+                message = "Excelente! Você mandou muito bem!";
+            } else if (percentage >= 50) {
+                message = "Muito bom! Quase lá!";
+            }
+            scoreMessageEl.textContent = message;
+        }
+        
+        // Função chamada pelo botão "Jogar Novamente" no HTML
+        function restartQuiz() {
+            window.location.href = 'selectionPage.html'; // Redireciona para a página de seleção
+        }
+
+        function handleGameError(message) {
+            alert(message + " Você será redirecionado para a página inicial.");
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            gameLevelKey = localStorage.getItem('gameLevelKey');
+            gameSubjectKey = localStorage.getItem('gameSubjectKey');
+
+            if (!gameLevelKey || !gameSubjectKey) {
+                handleGameError("Seleção de jogo não encontrada.");
+                return;
+            }
+
+            if (initializeGameData()) {
+                quizContentAreaEl.style.display = 'block'; // Mostra a área do quiz
+                resultsAreaEl.classList.remove('show');
+                resultsAreaEl.style.display = 'none'; // Esconde os resultados
+                loadNewQuestion();
+            }
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDANDO - Fale com a gente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #f5f5f5;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d94545;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #d94545;
+            font-weight: 500;
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+            width: 100%;
+        }
+
+        /* Left Side - Text */
+        .contact-text {
+            padding-right: 40px;
+        }
+
+        .contact-text h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #d94545;
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        .contact-text p {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        /* Right Side - Form and Contact Info */
+        .contact-form-section {
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #d94545;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 3px solid #d94545;
+            margin-bottom: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            color: #d94545;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 16px;
+            border: none;
+            border-bottom: 2px solid #d94545;
+            background: transparent;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-bottom-color: #c73838;
+            background: rgba(217, 69, 69, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #d94545, #c73838);
+            color: white;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(217, 69, 69, 0.3);
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(217, 69, 69, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Contact Info */
+        .contact-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .info-section h3 {
+            color: #d94545;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .info-section p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        /* Character Image */
+        .character-image {
+            position: absolute;
+            bottom: -40px;
+            right: -40px;
+            width: 200px;
+            height: 250px;
+            z-index: 10;
+        }
+
+        .character-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            background: #d94545;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .contact-text {
+                padding-right: 0;
+                text-align: center;
+            }
+
+            .character-image {
+                position: static;
+                margin: 20px auto 0;
+                width: 150px;
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .contact-text h1 {
+                font-size: 36px;
+            }
+
+            .contact-text p {
+                font-size: 16px;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-text h1 {
+                font-size: 28px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .form-container {
+                padding: 20px 15px;
+            }
+
+            .character-image {
+                width: 120px;
+                height: 150px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .contact-text h1 {
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .contact-text p {
+            animation: fadeInLeft 1s ease-out 0.2s both;
+        }
+
+        .section-title {
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .form-container {
+            animation: fadeInRight 1s ease-out 0.4s both;
+        }
+
+        .contact-info {
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .character-image {
+            animation: slideInFromRight 1.2s ease-out 0.6s both;
+        }
+
+        /* Form animations */
+        .form-group {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.7s; }
+        .form-group:nth-child(2) { animation-delay: 0.8s; }
+        .form-group:nth-child(3) { animation-delay: 0.9s; }
+
+        .submit-btn {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 1s forwards;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">STUDANDO</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="aboutUsPage.html">Quem somos</a></li>
+                    <li><a href="servicesPage.html">Serviços</a></li>
+                    <li><a href="contactPage.html">Contato</a></li>
+                </ul>
+                <button class="mobile-menu">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-content">
+                    <div class="contact-text">
+                        <h1>Fale com a gente</h1>
+                        <p>Entre em contato para dúvidas, sugestões ou contribuições. Sua participação é essencial para uma educação mais acessível e inclusiva.</p>
+                    </div>
+                    
+                    <div class="contact-form-section">
+                        <h2 class="section-title">Nos mande uma mensagem</h2>
+                        
+                        <div class="form-container">
+                            <form id="contactForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="name">Nome completo</label>
+                                        <input type="text" id="name" name="name" required>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="email">E-mail válido</label>
+                                        <input type="email" id="email" name="email" required>
+                                    </div>
+                                    
+                                    <div class="form-group full-width">
+                                        <label for="message">Mensagem</label>
+                                        <textarea id="message" name="message" rows="4" required></textarea>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="submit-btn">Enviar</button>
+                            </form>
+                        </div>
+
+                        <div class="contact-info">
+                            <div class="info-section">
+                                <h3>Contatos</h3>
+                                <p>andrei.seabra@estudante.iftm.edu.br</p>
+                                <p>pedro.ab@estudante.iftm.edu.br</p>
+                                <p>pedro.loures@estudante.iftm.edu.br</p>
+                                <p>sara.moura@estudante.iftm.edu.br</p>
+                            </div>
+                            
+                            <div class="info-section">
+                                <h3>Localização</h3>
+                                <p>Ituiutaba, MG, Brasil</p>
+                            </div>
+                        </div>
+
+                        <div class="character-image">
+                            <img src="imgs/Models/pointing.png" alt="Profissional apontando para o formulário de contato">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="contact.js"></script>
+</body>
+</html>

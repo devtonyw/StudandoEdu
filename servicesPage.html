@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDANDO - Aprender Brincando</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #f5f5f5;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d94545;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #d94545;
+            font-weight: 500;
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e85d5d, #d94545);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(217, 69, 69, 0.3);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Text */
+        .hero-text {
+            padding-left: 20px;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #d94545;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: right;
+            margin-top: 60px;
+        }
+
+        .cta-text {
+            font-size: 20px;
+            color: #d94545;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #d94545, #c73838);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(217, 69, 69, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(217, 69, 69, 0.4);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        /* Gaming Elements */
+        .gaming-highlight {
+            color: #d94545;
+            font-weight: bold;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .profile-image {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+
+            .hero-text {
+                padding-left: 0;
+                order: 2;
+            }
+
+            .profile-section {
+                order: 1;
+            }
+
+            .profile-image {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .hero-text p {
+                font-size: 16px;
+                text-align: left;
+            }
+
+            .profile-image {
+                width: 280px;
+                height: 280px;
+            }
+
+            .cta-section {
+                text-align: center;
+                margin-top: 40px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 28px;
+            }
+
+            .profile-image {
+                width: 220px;
+                height: 220px;
+            }
+
+            .cta-button {
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+        }
+
+        /* Entrance Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .profile-section {
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .hero-text h1 {
+            animation: fadeInRight 1s ease-out 0.2s both;
+        }
+
+        .hero-text p {
+            animation: fadeInRight 1s ease-out 0.4s both;
+        }
+
+        .cta-section {
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            background: #d94545;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">STUDANDO</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="aboutUsPage.html">Quem somos</a></li>
+                    <li><a href="servicesPage.html">Serviços</a></li>
+                    <li><a href="contactPage.html">Contato</a></li>
+                </ul>
+                <button class="mobile-menu">☰</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="profile-section">
+                        <div class="profile-image">
+                            <img src="imgs/Models/gaming.png" alt="Gamer aprendendo através de jogos educativos">
+                        </div>
+                    </div>
+                    
+                    <div class="hero-text">
+                        <h1>Aprender brincando: o conhecimento como um <span class="gaming-highlight">jogo</span></h1>
+                        <p>A plataforma oferece uma única, mas poderosa ferramenta educativa: um jogo de perguntas e respostas interativo, inspirado no estilo do famoso <strong>Perguntados</strong>. Ele foi desenvolvido para tornar o processo de aprendizado mais leve, acessível e envolvente, permitindo que os usuários fixem conteúdos de forma divertida e desafiadora.</p>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <p class="cta-text">Pronto para transformar sua educação?</p>
+                    <a href="selectionPage.html" class="cta-button">Começar</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

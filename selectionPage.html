@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studando - Escolha como aprender</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #f5f5f5;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #e74c3c;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #c0392b;
+        }
+
+        /* Main Content */
+        main {
+            padding: 60px 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .left-section {
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 32px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        /* Form Card */
+        .form-card {
+            background-color: #e74c3c;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .dropdown {
+            position: relative;
+            flex: 1;
+        }
+
+        .dropdown-button {
+            width: 100%;
+            padding: 15px 20px;
+            background-color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-arrow {
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid #333;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+            display: none;
+            margin-top: 5px;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .start-button {
+            background-color: white;
+            color: #e74c3c;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            background-color: #f8f9fa;
+        }
+
+        /* Right Section - Image */
+        .right-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .student-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .main-title {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .main-title {
+                font-size: 24px;
+            }
+
+            .form-card {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">STUDANDO</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="aboutUsPage.html">Quem somos</a></li>
+                    <li><a href="servicesPage.html">Serviços</a></li>
+                    <li><a href="contactPage.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="content">
+                <div class="left-section">
+                    <h1 class="main-title">Escolha como você quer aprender jogando!</h1>
+                    <p class="subtitle">
+                        Selecione o nível de dificuldade e o tema para começar
+                        seu desafio. Aprender nunca foi tão divertido!
+                    </p>
+                    
+
+                    
+                    <div class="form-card">
+                        <div class="form-row">
+                            <select class="dropdown-button" id="nivel">
+                                <option value="">Nível</option>
+                                <option value="college">Superior</option>
+                                <option value="technical">Técnico</option>
+                                <option value="high">Médio</option>
+                                <option value="elementary">Fundamental</option>
+                                <option value="basic">Elementar</option>
+                            </select>
+                            <select class="dropdown-button" id="conteudo">
+                                <option value="">Conteúdo</option>
+                            </select>
+                        </div>
+                        <button class="start-button" onclick="prepareAndStartGame()">COMEÇAR</button>
+                    </div>
+                </div>
+
+                <div class="right-section">
+                    <img src="imgs/Models/smiling2.png" alt="Estudante sorrindo" class="student-image">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="database/basic.js"></script>
+    <script src="database/elementary.js"></script>
+    <script src="database/high.js"></script>
+    <script src="database/technical.js"></script>
+    <script src="database/college.js"></script>
+
+    <script>
+        // Objeto EDUCATION_LEVELS (precisa ser construído a partir das vars dos arquivos acima)
+        const EDUCATION_LEVELS = {
+            basic: {
+                portuguese: typeof BASIC_PORTUGUESE_QUESTIONS !== 'undefined' ? BASIC_PORTUGUESE_QUESTIONS : {},
+                math: typeof BASIC_MATH_QUESTIONS !== 'undefined' ? BASIC_MATH_QUESTIONS : {},
+                science: typeof BASIC_SCIENCE_QUESTIONS !== 'undefined' ? BASIC_SCIENCE_QUESTIONS : {},
+                history: typeof BASIC_HISTORY_QUESTIONS !== 'undefined' ? BASIC_HISTORY_QUESTIONS : {},
+                geography: typeof BASIC_GEOGRAPHY_QUESTIONS !== 'undefined' ? BASIC_GEOGRAPHY_QUESTIONS : {},
+                art: typeof BASIC_ART_QUESTIONS !== 'undefined' ? BASIC_ART_QUESTIONS : {}
+            },
+            elementary: {
+                portuguese: typeof ELEMENTARY_PORTUGUESE_QUESTIONS !== 'undefined' ? ELEMENTARY_PORTUGUESE_QUESTIONS : {},
+                math: typeof ELEMENTARY_MATH_QUESTIONS !== 'undefined' ? ELEMENTARY_MATH_QUESTIONS : {},
+                science: typeof ELEMENTARY_SCIENCE_QUESTIONS !== 'undefined' ? ELEMENTARY_SCIENCE_QUESTIONS : {},
+                history: typeof ELEMENTARY_HISTORY_QUESTIONS !== 'undefined' ? ELEMENTARY_HISTORY_QUESTIONS : {},
+                geography: typeof ELEMENTARY_GEOGRAPHY_QUESTIONS !== 'undefined' ? ELEMENTARY_GEOGRAPHY_QUESTIONS : {},
+                art: typeof ELEMENTARY_ART_QUESTIONS !== 'undefined' ? ELEMENTARY_ART_QUESTIONS : {}
+            },
+            high: {
+                portuguese: typeof HIGH_PORTUGUESE_QUESTIONS !== 'undefined' ? HIGH_PORTUGUESE_QUESTIONS : {},
+                english: typeof HIGH_ENGLISH_QUESTIONS !== 'undefined' ? HIGH_ENGLISH_QUESTIONS : {},
+                art: typeof HIGH_ART_QUESTIONS !== 'undefined' ? HIGH_ART_QUESTIONS : {},
+                math: typeof HIGH_MATH_QUESTIONS !== 'undefined' ? HIGH_MATH_QUESTIONS : {},
+                physics: typeof HIGH_PHYSICS_QUESTIONS !== 'undefined' ? HIGH_PHYSICS_QUESTIONS : {},
+                chemistry: typeof HIGH_CHEMISTRY_QUESTIONS !== 'undefined' ? HIGH_CHEMISTRY_QUESTIONS : {},
+                biology: typeof HIGH_BIOLOGY_QUESTIONS !== 'undefined' ? HIGH_BIOLOGY_QUESTIONS : {},
+                history: typeof HIGH_HISTORY_QUESTIONS !== 'undefined' ? HIGH_HISTORY_QUESTIONS : {},
+                geography: typeof HIGH_GEOGRAPHY_QUESTIONS !== 'undefined' ? HIGH_GEOGRAPHY_QUESTIONS : {},
+                philosophy: typeof HIGH_PHILOSOPHY_QUESTIONS !== 'undefined' ? HIGH_PHILOSOPHY_QUESTIONS : {},
+                sociology: typeof HIGH_SOCIOLOGY_QUESTIONS !== 'undefined' ? HIGH_SOCIOLOGY_QUESTIONS : {}
+            },
+            technical: {
+                administration: typeof TECHNICAL_ADMINISTRATION_QUESTIONS !== 'undefined' ? TECHNICAL_ADMINISTRATION_QUESTIONS : {},
+                electrotechnics: typeof TECHNICAL_ELECTROTECHNICS_QUESTIONS !== 'undefined' ? TECHNICAL_ELECTROTECHNICS_QUESTIONS : {},
+                agriculture: typeof TECHNICAL_AGRICULTURE_QUESTIONS !== 'undefined' ? TECHNICAL_AGRICULTURE_QUESTIONS : {},
+                computing: typeof TECHNICAL_COMPUTING_QUESTIONS !== 'undefined' ? TECHNICAL_COMPUTING_QUESTIONS : {},
+                chemistry: typeof TECHNICAL_CHEMISTRY_QUESTIONS !== 'undefined' ? TECHNICAL_CHEMISTRY_QUESTIONS : {}
+            },
+            college: {
+                administration: typeof COLLEGE_ADMINISTRATION_QUESTIONS !== 'undefined' ? COLLEGE_ADMINISTRATION_QUESTIONS : {},
+                computerScience: typeof COLLEGE_COMPUTER_SCIENCE_QUESTIONS !== 'undefined' ? COLLEGE_COMPUTER_SCIENCE_QUESTIONS : {},
+                food: typeof COLLEGE_FOOD_QUESTIONS !== 'undefined' ? COLLEGE_FOOD_QUESTIONS : {},
+                systemsAnalysis: typeof COLLEGE_SYSTEMS_ANALYSIS_AND_DEVELOPMENT_QUESTIONS !== 'undefined' ? COLLEGE_SYSTEMS_ANALYSIS_AND_DEVELOPMENT_QUESTIONS : {},
+                industrialAutomation: typeof COLLEGE_INDUSTRIAL_AUTOMATION_QUESTIONS !== 'undefined' ? COLLEGE_INDUSTRIAL_AUTOMATION_QUESTIONS : {},
+                chemicalProcesses: typeof COLLEGE_CHEMICAL_PROCESSES_QUESTIONS !== 'undefined' ? COLLEGE_CHEMICAL_PROCESSES_QUESTIONS : {}
+            }
+        };
+
+        const subjectDisplayNames = {
+            portuguese: "Português", math: "Matemática", science: "Ciências",
+            history: "História", geography: "Geografia", art: "Artes",
+            english: "Inglês", physics: "Física", chemistry: "Química",
+            biology: "Biologia", philosophy: "Filosofia", sociology: "Sociologia",
+            administration: "Administração", electrotechnics: "Eletrotécnica",
+            agriculture: "Agropecuária", computing: "Informática (Técnico)",
+            computerScience: "Ciência da Computação", food: "Alimentos",
+            systemsAnalysis: "Análise e Des. de Sistemas",
+            industrialAutomation: "Automação Industrial", chemicalProcesses: "Processos Químicos"
+        };
+
+        const levelDropdown = document.getElementById('nivel');
+        const subjectDropdown = document.getElementById('conteudo');
+
+        function updateSubjectDropdown() {
+            const selectedLevelKey = levelDropdown.value;
+            subjectDropdown.innerHTML = '<option value="">Conteúdo</option>'; // Limpa e reseta
+
+
+            if (selectedLevelKey && EDUCATION_LEVELS[selectedLevelKey]) {
+                const subjectsForLevel = EDUCATION_LEVELS[selectedLevelKey];
+                for (const subjectKey in subjectsForLevel) {
+                    if (Object.hasOwnProperty.call(subjectsForLevel, subjectKey) &&
+                        subjectsForLevel[subjectKey] &&
+                        Object.keys(subjectsForLevel[subjectKey]).length > 0) {
+                        const option = document.createElement('option');
+                        option.value = subjectKey;
+                        option.textContent = subjectDisplayNames[subjectKey] || subjectKey.charAt(0).toUpperCase() + subjectKey.slice(1);
+                        subjectDropdown.appendChild(option);
+                    }
+                }
+            }
+        }
+
+        function prepareAndStartGame() {
+            const selectedLevelKey = levelDropdown.value; // Ex: "high"
+            const selectedSubjectKey = subjectDropdown.value; // Ex: "math"
+
+            if (!selectedLevelKey || !selectedSubjectKey) {
+                alert("Por favor, selecione o Nível e o Conteúdo para começar!");
+                return;
+            }
+
+            // Validação extra para garantir que há perguntas
+            if (!EDUCATION_LEVELS[selectedLevelKey] ||
+                !EDUCATION_LEVELS[selectedLevelKey][selectedSubjectKey] ||
+                Object.keys(EDUCATION_LEVELS[selectedLevelKey][selectedSubjectKey]).length === 0) {
+                alert(`Desculpe, não há questões disponíveis para o nível '${levelDropdown.options[levelDropdown.selectedIndex].text}' e conteúdo '${subjectDropdown.options[subjectDropdown.selectedIndex].text}'. Por favor, escolha outra combinação.`);
+                return;
+            }
+
+            localStorage.setItem('gameLevelKey', selectedLevelKey);
+            localStorage.setItem('gameSubjectKey', selectedSubjectKey);
+            
+            window.location.href = 'gamePage.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSubjectDropdown(); // Para inicializar o dropdown de conteúdo
+            levelDropdown.addEventListener('change', updateSubjectDropdown);
+        });
+    </script>
+</body>
+</html>

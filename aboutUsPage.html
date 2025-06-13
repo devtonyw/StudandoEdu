@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDANDO - Educação para Todos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #f5f5f5;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #d94545;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #d94545;
+            font-weight: 500;
+            font-size: 16px;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #d94545;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e85d5d, #d94545);
+            margin-bottom: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(217, 69, 69, 0.3);
+            position: relative;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: right;
+            margin-top: 60px;
+        }
+
+        .cta-text {
+            font-size: 20px;
+            color: #d94545;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #d94545, #c73838);
+            color: white;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(217, 69, 69, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(217, 69, 69, 0.4);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 36px;
+            }
+
+            .hero-text p {
+                font-size: 16px;
+            }
+
+            .profile-image {
+                width: 250px;
+                height: 250px;
+            }
+
+            .cta-section {
+                text-align: center;
+                margin-top: 40px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 28px;
+            }
+
+            .profile-image {
+                width: 200px;
+                height: 200px;
+            }
+
+            .cta-button {
+                padding: 14px 30px;
+                font-size: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-text h1,
+        .hero-text p,
+        .profile-image,
+        .cta-section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-text p {
+            animation-delay: 0.2s;
+        }
+
+        .profile-image {
+            animation-delay: 0.4s;
+        }
+
+        .cta-section {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">STUDANDO</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="aboutUsPage.html">Quem somos</a></li>
+                    <li><a href="servicesPage.html">Serviços</a></li>
+                    <li><a href="contactPage.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h1>Construindo pontes para o conhecimento e a inclusão</h1>
+                        <p>Somos uma iniciativa educacional de código aberto que acredita que o acesso ao conhecimento é um direito fundamental. Criamos esta plataforma para oferecer educação gratuita, acessível e de qualidade a crianças, jovens e adultos — especialmente aqueles que enfrentam barreiras socioeconômicas ou tecnológicas.</p>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <div class="profile-image">
+                            <img src="imgs/Models/posing.png" alt="Perfil representativo de estudante">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-section">
+                    <p class="cta-text">Pronto para transformar sua educação?</p>
+                    <a href="selectionPage.html" class="cta-button">Começar</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
